@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private var isEnabled: Boolean = false
     private var REQUEST_ENABLE_BT = 0
-    private var mPlayer: MediaPlayer? = null
     private var devices: MutableSet<BluetoothDevice>? = null
     private var device: BluetoothDevice? = null
     private var b: IBinder? = null
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setOnClickListener() {
         btnShowPairedDevices.setOnClickListener(this)
-        btnPlay.setOnClickListener(this)
+        //btnPlay.setOnClickListener(this)
         btnDisconnect.setOnClickListener(this)
     }
 
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 // For Android 4.2 Above Devices
                 device = deviceToConnect
                 //establish a connection to the profile proxy object associated with the profile
-                BluetoothAdapter.getDefaultAdapter().getProfileProxy(
+                val profileProxy = BluetoothAdapter.getDefaultAdapter().getProfileProxy(
                     this,
                     // listener notifies BluetoothProfile clients when they have been connected to or disconnected from the service
                     object : ServiceListener {
@@ -131,54 +130,33 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onDestroy() {
-        releaseMediaPlayer()
         disConnectUsingBluetoothA2dp(device)
         super.onDestroy()
     }
 
     override fun onPause() {
-        releaseMediaPlayer()
         super.onPause()
     }
 
-    private fun releaseMediaPlayer() {
-        mPlayer?.release()
-    }
 
-    private fun playMusic() {
-        //streaming music on the connected A2DP device
-        mPlayer = MediaPlayer()
-        try {
-            mPlayer?.setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
-            )
-            mPlayer?.setDataSource(
-                this,
-                Uri.parse("https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3")
-            )
-            mPlayer?.prepare()
-            mPlayer?.start()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btnPlay -> {
-                playMusic()
-            }
+//            R.id.btnPlay -> {
+  //              playMusic()
+    //        }
+
             R.id.btnShowPairedDevices -> {
                 //getting paired devices
                 devices = BluetoothAdapter.getDefaultAdapter().bondedDevices
+
                 setRecyclerview(
                     this.devices!!,
                     ::connectUsingBluetoothA2dp
                 )
             }
             R.id.btnDisconnect -> {
-                releaseMediaPlayer()
+              //  releaseMediaPlayer()
                 disConnectUsingBluetoothA2dp(device)
             }
         }
