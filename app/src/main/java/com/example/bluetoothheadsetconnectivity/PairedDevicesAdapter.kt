@@ -34,7 +34,12 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
 
     fun addItems(list: MutableSet<BluetoothDevice>) {
         devicesList.clear()
-        devicesList.addAll(list)
+        list.forEach{
+            if( it.name.toUpperCase().indexOf("RX")!=-1){
+                devicesList.add(it);
+            }
+
+        }
         notifyDataSetChanged()
     }
 }

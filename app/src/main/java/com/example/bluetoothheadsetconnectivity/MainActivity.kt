@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var devicesAdapter: PairedDevicesAdapter
 
     private var mIsA2dpReady = false
+
     fun setIsA2dpReady(ready: Boolean) {
         mIsA2dpReady = ready
     }
@@ -190,6 +191,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         devices: MutableSet<BluetoothDevice>,
         connect: (deviceToConnect: BluetoothDevice?) -> Unit
     ) {
+
         rvPairedDevices.layoutManager = LinearLayoutManager(this)
         devicesAdapter = PairedDevicesAdapter(connect)
         devicesAdapter.addItems(devices)
