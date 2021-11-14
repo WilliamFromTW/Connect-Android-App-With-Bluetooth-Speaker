@@ -1,6 +1,7 @@
 package com.example.bluetoothheadsetconnectivity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.bluetooth.BluetoothA2dp
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.lang.reflect.Method
+import java.util.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -32,7 +34,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var ia2dp: IBluetoothA2dp
     private lateinit var devicesAdapter: PairedDevicesAdapter
 
+    private lateinit var myactivity : MainActivity
+
     private var mIsA2dpReady = false
+
+    class MyTimerTask(val myactivity: MainActivity) : TimerTask() {
+        override fun run() {
+            myactivity.runOnUiThread(java.lang.Runnable {
+                val mTextView = myactivity.findViewById<View>(R.id.btnShowPairedDevices);
+                myactivity.onClick(mTextView)
+            })
+        }
+
+    }
 
     fun setIsA2dpReady(ready: Boolean) {
         mIsA2dpReady = ready
@@ -43,6 +57,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
         enableBluetooth()
         setOnClickListener()
+        myactivity = this
+        val task = MyTimerTask(myactivity)
+        Timer().schedule(task, Date(), 1000)
     }
 
     private fun setOnClickListener() {
@@ -169,6 +186,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             tbBluetooth.isChecked = true
             isEnabled = true
         }
+
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled) {
+            //turn bluetooth on
+            tbBluetooth.isChecked = true;
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
+            isEnabled = true
+        }
+
         tbBluetooth.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 if (!BluetoothAdapter.getDefaultAdapter().isEnabled) {

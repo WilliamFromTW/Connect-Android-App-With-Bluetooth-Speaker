@@ -68,7 +68,6 @@
         android:textSize="@dimen/sp_13"
         android:layout_marginEnd="@dimen/dp_10"
         android:layout_marginStart="@dimen/dp_5" />
-
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -83,6 +82,7 @@
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_marginEnd="@dimen/dp_10"
+        android:background="@android:color/white"
         tools:listitem="@layout/row_paired_device_item"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"

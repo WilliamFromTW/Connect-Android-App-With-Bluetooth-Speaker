@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.row_paired_device_item.view.*
+import java.lang.reflect.Method
 
 class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevice?) -> Unit) : RecyclerView.Adapter<PairedDevicesAdapter.DeviceViewHolder>() {
 
@@ -21,13 +22,29 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
 
     override fun getItemCount(): Int {
         return devicesList.size
+
+    }
+    fun isConnected(device: BluetoothDevice): Boolean {
+
+        return try {
+            val m: Method = device.javaClass.getMethod("isConnected")
+            m.invoke(device) as Boolean
+        } catch (e: Exception) {
+            throw IllegalStateException(e)
+        }
     }
 
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         val device = devicesList[position]
-        holder.itemView.tvDeviceName.text = device.name
+
+        if( isConnected(device) )
+          holder.itemView.tvDeviceName.text = "設備 "+device.name +" 已連線"
+        else
+          holder.itemView.tvDeviceName.text = "設備 "+device.name +" 未連線"
+
         holder.itemView.tvDeviceAddress.text = device.address
         holder.itemView.setOnClickListener {
+            if( !isConnected(device) )
             connect(device)
         }
     }
