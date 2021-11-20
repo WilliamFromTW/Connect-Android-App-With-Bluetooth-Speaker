@@ -180,33 +180,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun enableBluetooth() {
         //Checking if bluetooth is on or off
         if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
-            tbBluetooth.isChecked = true
+
             isEnabled = true
         }else {
             //turn bluetooth on
-            tbBluetooth.isChecked = true;
+
             BluetoothAdapter.getDefaultAdapter().enable();
 //            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
   //          startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
             isEnabled = true
         }
 
-        tbBluetooth.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                if (!BluetoothAdapter.getDefaultAdapter().isEnabled) {
-                    //turn bluetooth on
-                    val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-                    isEnabled = true
-                }
-            } else {
-                if (isEnabled) {
-                    //turn bluetooth off
-                    BluetoothAdapter.getDefaultAdapter().disable()
-                    isEnabled = false
-                }
-            }
-        }
+
     }
 
     private fun setRecyclerview(

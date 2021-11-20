@@ -6,30 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvBluetoothStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/dp_10"
-        android:text="@string/bluetooth_status"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/sp_20"/>
-
-    <androidx.appcompat.widget.AppCompatToggleButton
-        android:id="@+id/tbBluetooth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textOn="@string/on"
-        android:textOff="@string/off"
-        android:layout_marginTop="@dimen/dp_4"
-        app:layout_constraintTop_toTopOf="@id/tvBluetoothStatus"
-        app:layout_constraintBottom_toBottomOf="@id/tvBluetoothStatus"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnShowPairedDevices"
@@ -44,7 +20,7 @@
         android:textSize="@dimen/sp_13"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvBluetoothStatus" />
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/lnrLayout"
