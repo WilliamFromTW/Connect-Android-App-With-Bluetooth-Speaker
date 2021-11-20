@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BluetoothHeadsetConnectivity</string>
+    <string name="app_name">輔聽器藍牙連接APP</string>
     <string name="off">OFF</string>
     <string name="on">ON</string>
     <string name="disconnect"></string>
