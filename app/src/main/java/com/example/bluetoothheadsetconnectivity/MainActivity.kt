@@ -127,6 +127,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     ) {
         try {
             // For Android 4.2 Above Devices
+          //      System.out.println("asdfasdf"+deviceToConnect.toString());
             if (b == null) {
                 try {
                     //disconnecting bluetooth device
@@ -160,9 +161,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-//            R.id.btnPlay -> {
-  //              playMusic()
-    //        }
 
             R.id.btnShowPairedDevices -> {
                 //getting paired devices
@@ -174,7 +172,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 )
             }
             R.id.btnDisconnect -> {
-              //  releaseMediaPlayer()
                 disConnectUsingBluetoothA2dp(device)
             }
         }
@@ -185,13 +182,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
             tbBluetooth.isChecked = true
             isEnabled = true
-        }
-
-        if (!BluetoothAdapter.getDefaultAdapter().isEnabled) {
+        }else {
             //turn bluetooth on
             tbBluetooth.isChecked = true;
-            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
+            BluetoothAdapter.getDefaultAdapter().enable();
+//            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+  //          startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
             isEnabled = true
         }
 

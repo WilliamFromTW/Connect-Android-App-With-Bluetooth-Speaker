@@ -41,7 +41,7 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
           holder.itemView.tvDeviceName.text = "設備 "+device.name +" 已連線"
         else
           holder.itemView.tvDeviceName.text = "設備 "+device.name +" 未連線"
-
+        connect(device);
         holder.itemView.tvDeviceAddress.text = device.address
         holder.itemView.setOnClickListener {
             if( !isConnected(device) )
@@ -52,10 +52,13 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
     fun addItems(list: MutableSet<BluetoothDevice>) {
         devicesList.clear()
         list.forEach{
-            if( it.name.toUpperCase().indexOf("RX")!=-1){
+            if( it.name==null|| it.name.trim() == ""){
+                if( it.address.toUpperCase().indexOf("F3")!=-1){
+                   ;// devicesList.add(it);
+                }
+            }else if( it.name.toUpperCase().indexOf("RX")!=-1 || it.name.toUpperCase().indexOf("HL")!=-1){
                 devicesList.add(it);
             }
-
         }
         notifyDataSetChanged()
     }
