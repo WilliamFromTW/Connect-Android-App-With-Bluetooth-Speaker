@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/tertiary_text_light"
+    android:background="#E0FFFF"
     tools:context=".MainActivity">
 
 
@@ -42,8 +42,8 @@
         android:layout_width="380dp"
         android:layout_height="220dp"
         android:divider="@null"
+        android:background="#E0FFFF"
         android:dividerHeight="0dp"
-        android:background="@android:color/tertiary_text_light"
         android:choiceMode="singleChoice"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -1,5 +1,6 @@
 package com.example.bluetoothheadsetconnectivity
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothA2dp
@@ -11,10 +12,13 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,17 +59,46 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        enableBluetooth()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            requestMultiplePermissions.launch(arrayOf(
+                Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_CONNECT))
+        }
+        else{
+            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            requestBluetooth.launch(enableBtIntent)
+        }
+
         setOnClickListener()
         myactivity = this
-        val task = MyTimerTask(myactivity)
-        Timer().schedule(task, Date(), 1000)
 
        
 
 
     }
+    private var requestBluetooth = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            //granted
 
+            enableBluetooth()
+            val task = MyTimerTask(myactivity)
+            Timer().schedule(task, Date(), 10000)
+        }else{
+            //deny
+        }
+    }
+
+    private val requestMultiplePermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.entries.forEach {
+                Log.d("test006", "${it.key} = ${it.value}")
+
+                enableBluetooth()
+                val task = MyTimerTask(myactivity)
+                Timer().schedule(task, Date(), 10000)
+            }
+        }
     private fun setOnClickListener() {
         btnShowPairedDevices.setOnClickListener(this)
     }
