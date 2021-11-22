@@ -7,12 +7,11 @@ android {
     buildToolsVersion "31.0.0"
 
     defaultConfig {
-        applicationId "com.example.bluetoothheadsetconnectivity"
+        applicationId "hl.bt.connectionhelper"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.2"
-
+        versionCode 4
+        versionName "1.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,12 +28,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     //Material Design
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.4.0'
 
 }

@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var requestBluetooth = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             //granted
-
             enableBluetooth()
             val task = MyTimerTask(myactivity)
             Timer().schedule(task, Date(), 10000)

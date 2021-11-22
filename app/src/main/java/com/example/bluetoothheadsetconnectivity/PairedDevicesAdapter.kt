@@ -61,15 +61,25 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
     fun addItems(list: MutableSet<BluetoothDevice>) {
         devicesList.clear()
         list.forEach{
-            if( it.name==null|| it.name.trim() == ""){
-                if( it.address.toUpperCase().indexOf("F3")!=-1){
-                   ;// devicesList.add(it);
-                }
-            }else {//if( it.name.toUpperCase().indexOf("RX")!=-1 || it.name.toUpperCase().indexOf("HL")!=-1){
+            checkMacAddressArrange(it.address.toString())
+
+//                    if( checkMacAddressArrange("00026625B1EF")){
+            if( checkMacAddressArrange(it.address.toString())){
+                    devicesList.add(it);
+            }else if( it.name.toUpperCase().indexOf("RX")!=-1 || it.name.toUpperCase().indexOf("HL")!=-1){
                 if( !devicesList.contains(it))
                 devicesList.add(it);
             }
         }
         notifyDataSetChanged()
+    }
+
+    fun checkMacAddressArrange(sMacAddress:String):Boolean{
+
+//        System.out.println(sMacAddress.replace(":","") +" asdf length: "+sMacAddress.length)
+
+        val a: Long = "26625B1EF".toLong(radix = 16)
+        val b: Long = sMacAddress.replace(":","").substring(3).toLong(radix = 16)
+        return b>=a && (b-2000)<=a;
     }
 }
