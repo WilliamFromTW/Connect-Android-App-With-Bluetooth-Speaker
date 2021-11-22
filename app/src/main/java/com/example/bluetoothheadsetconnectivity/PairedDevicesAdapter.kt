@@ -1,12 +1,17 @@
 package com.example.bluetoothheadsetconnectivity
 
 import android.bluetooth.BluetoothDevice
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.row_paired_device_item.view.*
 import java.lang.reflect.Method
+import androidx.recyclerview.widget.DividerItemDecoration
+
+
+
 
 class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevice?) -> Unit) : RecyclerView.Adapter<PairedDevicesAdapter.DeviceViewHolder>() {
 
@@ -36,12 +41,16 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
 
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         val device = devicesList[position]
+        holder.itemView.tvDeviceName.textSize = 28F;
 
-        if( isConnected(device) )
-          holder.itemView.tvDeviceName.text = "設備 "+device.name +" 已連線"
-        else
-          holder.itemView.tvDeviceName.text = "設備 "+device.name +" 未連線"
-        connect(device);
+        if( isConnected(device) ) {
+            holder.itemView.tvDeviceName.setTextColor(Color.GREEN)
+            holder.itemView.tvDeviceName.text = "設備 " + device.name + " 已連線"
+        }
+        else {
+            holder.itemView.tvDeviceName.text = "設備 " + device.name + " 未連線"
+            connect(device);
+        }
         holder.itemView.tvDeviceAddress.text = device.address
         holder.itemView.setOnClickListener {
             if( !isConnected(device) )
@@ -56,7 +65,8 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
                 if( it.address.toUpperCase().indexOf("F3")!=-1){
                    ;// devicesList.add(it);
                 }
-            }else if( it.name.toUpperCase().indexOf("RX")!=-1 || it.name.toUpperCase().indexOf("HL")!=-1){
+            }else {//if( it.name.toUpperCase().indexOf("RX")!=-1 || it.name.toUpperCase().indexOf("HL")!=-1){
+                if( !devicesList.contains(it))
                 devicesList.add(it);
             }
         }

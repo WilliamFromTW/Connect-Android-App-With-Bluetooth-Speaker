@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.lang.reflect.Method
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 myactivity.onClick(mTextView)
             })
         }
-
     }
 
     fun setIsA2dpReady(ready: Boolean) {
@@ -60,12 +60,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         myactivity = this
         val task = MyTimerTask(myactivity)
         Timer().schedule(task, Date(), 1000)
+
+       
+
+
     }
 
     private fun setOnClickListener() {
         btnShowPairedDevices.setOnClickListener(this)
-        //btnPlay.setOnClickListener(this)
-        btnDisconnect.setOnClickListener(this)
     }
 
     @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
@@ -171,9 +173,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     ::connectUsingBluetoothA2dp
                 )
             }
-            R.id.btnDisconnect -> {
-                disConnectUsingBluetoothA2dp(device)
-            }
+
         }
     }
 
@@ -202,9 +202,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         rvPairedDevices.layoutManager = LinearLayoutManager(this)
         devicesAdapter = PairedDevicesAdapter(connect)
         devicesAdapter.addItems(devices)
-        rvPairedDevices.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        //rvPairedDevices.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+
         rvPairedDevices.apply {
             adapter = devicesAdapter
         }
+
     }
 }

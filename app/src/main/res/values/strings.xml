@@ -3,5 +3,5 @@
     <string name="off">OFF</string>
     <string name="on">ON</string>
     <string name="disconnect"></string>
-    <string name="show_paired_devices">已配對設備</string>
+    <string name="show_paired_devices">已配對輔聽設備</string>
 </resources>
