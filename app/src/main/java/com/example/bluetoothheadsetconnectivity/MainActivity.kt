@@ -21,6 +21,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.reflect.Method
 import java.util.*
+import android.content.DialogInterface
+import android.graphics.Color
+import android.util.TypedValue
+import androidx.appcompat.app.AlertDialog
+import android.widget.TextView
+
+
+
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -32,7 +41,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var a2dp: BluetoothA2dp  //class to connect to an A2dp device
     private lateinit var ia2dp: IBluetoothA2dp
     private lateinit var devicesAdapter: PairedDevicesAdapter
-
+    private var firstBTSettings : Boolean = true
     private lateinit var myactivity : MainActivity
 
     private var mIsA2dpReady = false
@@ -76,18 +85,35 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onStart()
         if( devices==null )
             devices = BluetoothAdapter.getDefaultAdapter().bondedDevices
-        if(!checkHLdevice()){
-            System.out.println("asdf");
-            val uri: Uri = Uri.fromParts("package", packageName, null)
-            val intent = Intent()
-            intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
-            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.flags=Intent.FLAG_ACTIVITY_NO_HISTORY
-            intent.flags=Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
-            //   intent.data = uri
-            startActivity(intent)
+        if (!checkHLdevice()) {
+            if( firstBTSettings) {
+                    firstBTSettings = false
+                val intent = Intent()
+                //   val uri: Uri = Uri.fromParts("package", packageName, null)
+                //   intent.data = uri
+                intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+            else{
+                val dialog = AlertDialog.Builder(this).setMessage("無輔聽產品,APP將結束")
+                    .setPositiveButton("OK"){
+                    // 此為 Lambda 寫法
+                        dialog, which -> dialog.cancel()
+                        finishAffinity();
+                        System.exit(0);
+                    }
+                    .show()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(TypedValue.COMPLEX_UNIT_SP, 23.0f)
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE)
+
+                val textView = dialog.findViewById<View>(android.R.id.message) as TextView?
+                textView!!.textSize = 23f
+            }
         }
     }
 

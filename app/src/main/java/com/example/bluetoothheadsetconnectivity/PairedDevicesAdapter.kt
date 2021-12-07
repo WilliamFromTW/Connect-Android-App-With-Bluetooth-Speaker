@@ -41,17 +41,19 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
 
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         val device = devicesList[position]
-        holder.itemView.tvDeviceName.textSize = 28F;
+        holder.itemView.tvDeviceName.text =  device.name.toString().trim()
 
         if( isConnected(device) ) {
-            holder.itemView.tvDeviceName.setTextColor(Color.GREEN)
-            holder.itemView.tvDeviceName.text = "設備 " + device.name + " 已連線"
+            holder.itemView.btnStatus.setTextColor(Color.BLUE)
+            holder.itemView.btnStatus.setBackgroundColor(Color.WHITE)
+            holder.itemView.btnStatus.setText("已連線")
         }
         else {
-            holder.itemView.tvDeviceName.text = "設備 " + device.name + " 未連線"
+            holder.itemView.btnStatus.setTextColor(Color.RED)
+            holder.itemView.btnStatus.setBackgroundColor(Color.WHITE)
+            holder.itemView.btnStatus.setText("未連線")
             connect(device);
         }
-        holder.itemView.tvDeviceAddress.text = device.address
         holder.itemView.setOnClickListener {
             if( !isConnected(device) )
             connect(device)
@@ -59,7 +61,7 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
     }
 
     fun addItems(list: MutableSet<BluetoothDevice>) {
-     //   devicesList.clear()
+        devicesList.clear()
         list.forEach{
         //    checkMacAddressArrange(it.address.toString())
 

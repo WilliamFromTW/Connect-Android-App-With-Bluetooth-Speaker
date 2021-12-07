@@ -2,34 +2,38 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
-    <TextView
-        android:id="@+id/tvDeviceName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/sp_17"
-        android:layout_marginStart="@dimen/dp_20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/dp_10"
-        android:textColor="@android:color/background_dark"/>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ll"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvDeviceAddress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:layout_marginStart="@dimen/dp_20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintTop_toBottomOf="@id/tvDeviceName"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="@dimen/dp_10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textColor="@android:color/background_dark"/>
+        <TextView
+            android:id="@+id/tvDeviceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dp_40"
+            android:layout_marginStart="@dimen/dp_20"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="center"
+            android:textColor="@android:color/holo_blue_dark"/>
+
+        <Button
+            android:id="@+id/btnStatus"
+            android:text="Yes"
+            android:textSize="@dimen/dp_40"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#E0FFFF"
+            android:layout_gravity="center"
+            android:clickable="false"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
