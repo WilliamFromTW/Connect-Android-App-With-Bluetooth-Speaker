@@ -59,9 +59,9 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
     }
 
     fun addItems(list: MutableSet<BluetoothDevice>) {
-        devicesList.clear()
+     //   devicesList.clear()
         list.forEach{
-            checkMacAddressArrange(it.address.toString())
+        //    checkMacAddressArrange(it.address.toString())
 
 //                    if( checkMacAddressArrange("00026625B1EF")){
             if( checkMacAddressArrange(it.address.toString())){
@@ -72,6 +72,16 @@ class PairedDevicesAdapter(private val connect: (deviceToConnect: BluetoothDevic
             }
         }
         notifyDataSetChanged()
+    }
+
+     fun checkHLdevice(aBluetoothDevice:BluetoothDevice):Boolean{
+        if( checkMacAddressArrange(aBluetoothDevice.address.toString())){
+           return true
+        }else if( aBluetoothDevice.name.toUpperCase().indexOf("RX")!=-1 || aBluetoothDevice.name.toUpperCase().indexOf("HL")!=-1) {
+            if (!devicesList.contains(aBluetoothDevice))
+                return true
+        }
+        return false
     }
 
     fun checkMacAddressArrange(sMacAddress:String):Boolean{

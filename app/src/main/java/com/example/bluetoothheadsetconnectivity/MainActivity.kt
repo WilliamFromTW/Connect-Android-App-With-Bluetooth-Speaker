@@ -2,29 +2,23 @@ package com.example.bluetoothheadsetconnectivity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.bluetooth.BluetoothA2dp
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothProfile
 import android.bluetooth.BluetoothProfile.ServiceListener
 import android.content.Intent
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.IOException
 import java.lang.reflect.Method
 import java.util.*
 
@@ -73,10 +67,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setOnClickListener()
         myactivity = this
 
-       
+        // check HL device
 
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        if( devices==null )
+            devices = BluetoothAdapter.getDefaultAdapter().bondedDevices
+        if(!checkHLdevice()){
+            System.out.println("asdf");
+            val uri: Uri = Uri.fromParts("package", packageName, null)
+            val intent = Intent()
+            intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
+            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.flags=Intent.FLAG_ACTIVITY_NO_HISTORY
+            intent.flags=Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
+            //   intent.data = uri
+            startActivity(intent)
+        }
+    }
+
     private var requestBluetooth = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             //granted
@@ -191,7 +205,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onPause()
     }
 
+    fun checkHLdevice():Boolean{
+        devices?.forEach{
+            if( checkMacAddressArrange(it.address.toString())){
+                return true
+            }else if( it.name.toUpperCase().indexOf("RX")!=-1 || it.name.toUpperCase().indexOf("HL")!=-1) {
+                return true
+            }
+        }
+        return false
+    }
 
+    fun checkMacAddressArrange(sMacAddress:String):Boolean{
+//        System.out.println(sMacAddress.replace(":","") +" asdf length: "+sMacAddress.length)
+        val a: Long = "26625B1EF".toLong(radix = 16)
+        val b: Long = sMacAddress.replace(":","").substring(3).toLong(radix = 16)
+        return b>=a && (b-2000)<=a;
+    }
 
     override fun onClick(v: View?) {
         when (v?.id) {
