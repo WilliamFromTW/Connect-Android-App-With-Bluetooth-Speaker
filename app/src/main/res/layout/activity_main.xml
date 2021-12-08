@@ -40,12 +40,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPairedDevices"
-        android:layout_width="380dp"
-        android:layout_height="220dp"
-        android:divider="@null"
+        android:layout_width="313dp"
+        android:layout_height="521dp"
         android:background="#E0FFFF"
-        android:dividerHeight="0dp"
         android:choiceMode="singleChoice"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/lnrLayout"

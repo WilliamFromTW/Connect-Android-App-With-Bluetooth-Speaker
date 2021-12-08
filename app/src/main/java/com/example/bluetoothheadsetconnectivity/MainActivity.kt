@@ -83,9 +83,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        if( devices==null )
-            devices = BluetoothAdapter.getDefaultAdapter().bondedDevices
-        if (!checkHLdevice()) {
+
+        devices = BluetoothAdapter.getDefaultAdapter().bondedDevices
+
+        if (!checkHLdevice() && BluetoothAdapter.getDefaultAdapter().isEnabled ) {
             if( firstBTSettings) {
                     firstBTSettings = false
                 val intent = Intent()
@@ -121,6 +122,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (result.resultCode == RESULT_OK) {
             //granted
             enableBluetooth()
+            if (!checkHLdevice() && BluetoothAdapter.getDefaultAdapter().isEnabled ) {
+
+                    val intent = Intent()
+                    //   val uri: Uri = Uri.fromParts("package", packageName, null)
+                    //   intent.data = uri
+                    intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                    intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
             val task = MyTimerTask(myactivity)
             Timer().schedule(task, Date(), 10000)
         }else{
@@ -134,6 +148,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Log.d("test006", "${it.key} = ${it.value}")
 
                 enableBluetooth()
+                if (!checkHLdevice() && BluetoothAdapter.getDefaultAdapter().isEnabled ) {
+
+                    val intent = Intent()
+                    //   val uri: Uri = Uri.fromParts("package", packageName, null)
+                    //   intent.data = uri
+                    intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                    intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
                 val task = MyTimerTask(myactivity)
                 Timer().schedule(task, Date(), 10000)
             }
@@ -267,12 +294,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun enableBluetooth() {
         //Checking if bluetooth is on or off
+        devices = BluetoothAdapter.getDefaultAdapter().bondedDevices
         if (BluetoothAdapter.getDefaultAdapter().isEnabled) {
 
             isEnabled = true
         }else {
             //turn bluetooth on
-
             BluetoothAdapter.getDefaultAdapter().enable();
 //            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
   //          startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
