@@ -89,16 +89,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (!checkHLdevice() && BluetoothAdapter.getDefaultAdapter().isEnabled ) {
             if( firstBTSettings) {
                     firstBTSettings = false
-                val intent = Intent()
-                //   val uri: Uri = Uri.fromParts("package", packageName, null)
-                //   intent.data = uri
-                intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                val dialog = AlertDialog.Builder(this).setMessage("請配對輔聽器")
+                    .setPositiveButton("OK"){
+                            dialog, which -> dialog.cancel()
+                        val intent = Intent()
+                        //   val uri: Uri = Uri.fromParts("package", packageName, null)
+                        //   intent.data = uri
+                        intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                        intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+                    .show()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(TypedValue.COMPLEX_UNIT_SP, 23.0f)
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE)
+
+                val textView = dialog.findViewById<View>(android.R.id.message) as TextView?
+                textView!!.textSize = 23f
             }
             else{
                 val dialog = AlertDialog.Builder(this).setMessage("無輔聽產品,APP將結束")
@@ -121,19 +131,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var requestBluetooth = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             //granted
+                System.out.println("asdfasdf");
             enableBluetooth()
+            if( firstBTSettings)
             if (!checkHLdevice() && BluetoothAdapter.getDefaultAdapter().isEnabled ) {
+                firstBTSettings = false
+                val dialog = AlertDialog.Builder(this).setMessage("請配對輔聽器")
+                    .setPositiveButton("OK"){
+                            dialog, which -> dialog.cancel()
+                        val intent = Intent()
+                        //   val uri: Uri = Uri.fromParts("package", packageName, null)
+                        //   intent.data = uri
+                        intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                        intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+                    .show()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(TypedValue.COMPLEX_UNIT_SP, 23.0f)
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE)
 
-                    val intent = Intent()
-                    //   val uri: Uri = Uri.fromParts("package", packageName, null)
-                    //   intent.data = uri
-                    intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                    intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+                val textView = dialog.findViewById<View>(android.R.id.message) as TextView?
+                textView!!.textSize = 23f
+
                 }
             val task = MyTimerTask(myactivity)
             Timer().schedule(task, Date(), 10000)
@@ -148,18 +171,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Log.d("test006", "${it.key} = ${it.value}")
 
                 enableBluetooth()
+                if( firstBTSettings)
                 if (!checkHLdevice() && BluetoothAdapter.getDefaultAdapter().isEnabled ) {
+System.out.println("asdfasdfasdfasdf")
+//                    firstBTSettings = false
+                    val dialog = AlertDialog.Builder(this).setMessage("請配對輔聽器")
+                        .setPositiveButton("OK"){
+                                dialog, which -> dialog.cancel()
+                            val intent = Intent()
+                            //   val uri: Uri = Uri.fromParts("package", packageName, null)
+                            //   intent.data = uri
+                            intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                            intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                        }
+                        .show()
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(TypedValue.COMPLEX_UNIT_SP, 23.0f)
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE)
 
-                    val intent = Intent()
-                    //   val uri: Uri = Uri.fromParts("package", packageName, null)
-                    //   intent.data = uri
-                    intent.action = Settings.ACTION_BLUETOOTH_SETTINGS
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                    intent.flags = Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+                    val textView = dialog.findViewById<View>(android.R.id.message) as TextView?
+                    textView!!.textSize = 23f
+
                 }
                 val task = MyTimerTask(myactivity)
                 Timer().schedule(task, Date(), 10000)
@@ -290,6 +326,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         }
+    }
+
+    private fun triggerBTSettins(){
+
     }
 
     private fun enableBluetooth() {
